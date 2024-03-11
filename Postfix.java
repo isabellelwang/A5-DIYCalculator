@@ -26,6 +26,11 @@ public class Postfix {
         // System.out.println("Add to stack: " + stack);
         // System.out.println("Remove from queue" + queue);
       } else if (queueValue instanceof Character) {
+
+        if (stack.size() < 2) {
+          throw new RuntimeException("There are insufficient amount of numbers in the stack");
+        }
+
         Double num1 = stack.pop();
         Double num2 = stack.pop();
 
@@ -46,22 +51,24 @@ public class Postfix {
       }
     }
 
+    if (stack.size() > 1) {
+      throw new RuntimeException("There are excess numbers in the stack.");
+    }
     return stack.pop();
-
   }
 
   /** Run short test */
   public static void main(String[] args) {
-    //System.out.println("Answer: " + compute(" 3 2 + 5 *"));
+    System.out.println("Answer: " + compute(" 3 2 + 5 * 7 "));
 
     if (args.length == 0) {
       // If no arguments passed, print instructions
       System.err.println("Usage: java Postfix <expr>");
     } else {
       // Otherwise, echo what was read in for now
-      //Scanner input = new Scanner(new StringReader(args[0]));
+      // Scanner input = new Scanner(new StringReader(args[0]));
       System.out.println("Answer: " + compute(args[0]));
-        // System.out.println(input.next());
+      // System.out.println(input.next());
 
     }
   }

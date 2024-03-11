@@ -2,15 +2,18 @@ import java.util.Scanner;
 import java.io.StringReader;
 import java.util.ArrayDeque;
 
-/** 
- * Class to interpret and compute the result of arithmetic expressions 
- * in INFIX format - 
+/**
+ * Class to interpret and compute the result of arithmetic expressions
+ * in INFIX format -
  */
 public class Calculate {
+  ArrayDeque<Object> stack = new ArrayDeque<Object>();
+  ArrayDeque<Object> queue = new ArrayDeque<Object>();
 
   public static Double compute(String input) {
-    
+
   }
+
   /** Run short test */
   public static void main(String[] args) {
 
