@@ -8,6 +8,9 @@ import java.util.ArrayDeque;
  */
 public class Calculate {
 
+  public static Double compute(String input) {
+    
+  }
   /** Run short test */
   public static void main(String[] args) {
 
