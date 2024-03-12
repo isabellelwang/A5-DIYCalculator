@@ -30,16 +30,20 @@ public class Calculate {
             || (Character) firstObj == '/') {
           System.out.println(firstObj);
           if (!operatorStack.isEmpty()) {
+            System.out.println(operatorStack.peekFirst() != null);
+            System.out.println((getPrecedence(operatorStack.peekFirst()))); // >= getPrecedence((Character) firstObj)));
+            System.out.println(getPrecedence((Character) firstObj));
+
             while (operatorStack.peekFirst() != null && (getPrecedence(operatorStack.peekFirst()) >= getPrecedence((Character) firstObj))) {
               System.out.println("while");
 
               outputQueue.addLast(operatorStack.getFirst());
               System.out.println(outputQueue);
               operatorStack.removeFirst();
+              System.out.println("removed");
               System.out.println(operatorStack);
               //operatorStack.getFirst(); 
             }
-
           }
           operatorStack.push((Character) firstObj);
           infix.removeFirst();
@@ -64,6 +68,15 @@ public class Calculate {
         }
       }
     }
+    if(infix.size() == 0) {
+      if(operatorStack.peekFirst() == '(' || operatorStack.peekFirst() == ')') {
+        throw new RuntimeException("Mismatched Parenthesis"); 
+      }
+      else if(operatorStack.peekFirst() == '+' || operatorStack.peekFirst() == '-' || operatorStack.peekFirst() == '/'|| operatorStack.peekFirst() == '*'|| operatorStack.peekFirst() == '^') {
+        outputQueue.addLast(operatorStack.pop()); 
+      }
+    }
+    
     if (operatorStack.size() == 0 || infix.size() != 0) {
       throw new RuntimeException("Cannot compute.");
     } else {
@@ -106,7 +119,7 @@ public class Calculate {
   /** Run short test */
   public static void main(String[] args) {
 
-    System.out.println(Calculate.calculate("3 2 5 * +"));
+    System.out.println(Calculate.calculate("3 + 2 * 5"));
 
     // if (args.length == 0) {
     // // If no arguments passed, print instructions
