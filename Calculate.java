@@ -18,8 +18,8 @@ public class Calculate {
 
     for (int i = 0; i < length; i++) {
       Object firstObj = infix.getFirst();
-      // System.out.println("Output: " + outputQueue);
-      // System.out.println("Stack" + operatorStack);
+      System.out.println("Output: " + outputQueue);
+      System.out.println("Stack" + operatorStack);
 
       if (firstObj instanceof Double) {
         outputQueue.addLast((Double) firstObj);
@@ -28,6 +28,19 @@ public class Calculate {
       } else if (firstObj instanceof Character) {
         if ((Character) firstObj == '+' || (Character) firstObj == '-' || (Character) firstObj == '*'
             || (Character) firstObj == '/') {
+          System.out.println(firstObj);
+          if (!operatorStack.isEmpty()) {
+            while (operatorStack.peekFirst() != null && (getPrecedence(operatorStack.peekFirst()) >= getPrecedence((Character) firstObj))) {
+              System.out.println("while");
+
+              outputQueue.addLast(operatorStack.getFirst());
+              System.out.println(outputQueue);
+              operatorStack.removeFirst();
+              System.out.println(operatorStack);
+              //operatorStack.getFirst(); 
+            }
+
+          }
           operatorStack.push((Character) firstObj);
           infix.removeFirst();
         } else if ((Character) firstObj == '(') {
@@ -58,14 +71,14 @@ public class Calculate {
 
     }
 
-    // System.out.println("End stack:" + operatorStack);
-    // System.out.println("End Queue:" + outputQueue);
-    // System.out.println("end In:" + infix);
+    System.out.println("End stack:" + operatorStack);
+    System.out.println("End Queue:" + outputQueue);
+    System.out.println("end In:" + infix);
 
     Object postfix[] = outputQueue.toArray();
     // System.out.println("String:" + Arrays.toString(postfix));
     // System.out.println( Postfix.compute(toString(postfix)));
-    return Postfix.compute(toString(postfix)); 
+    return Postfix.compute(toString(postfix));
 
   }
 
@@ -76,21 +89,32 @@ public class Calculate {
       input += values + " ";
     }
     return input;
+  }
 
+  public static int getPrecedence(Object operator) {
+    int prec = 0;
+    if ((Character)operator == '^') {
+      prec = 4;
+    } else if ((Character)operator == '*' || (Character)operator == '/') {
+      prec = 3;
+    } else if ((Character)operator == '+' || (Character)operator == '-') {
+      prec = 2;
+    } 
+    return prec;
   }
 
   /** Run short test */
   public static void main(String[] args) {
 
-    //System.out.println(Calculate.calculate("(3+2)*5"));
+    System.out.println(Calculate.calculate("3 2 5 * +"));
 
-    if (args.length == 0) {
-    // If no arguments passed, print instructions
-    System.err.println("Usage: java Calculate <expr>");
-    } else {
-    // Otherwise, echo what was read in for now
-    System.out.println("Answer: " + Calculate.calculate(args[0]));
-    }
+    // if (args.length == 0) {
+    // // If no arguments passed, print instructions
+    // System.err.println("Usage: java Calculate <expr>");
+    // } else {
+    // // Otherwise, echo what was read in for now
+    // System.out.println("Answer: " + Calculate.calculate(args[0]));
+    // }
   }
 
 }

@@ -48,12 +48,15 @@ public class Postfix {
           // System.out.println("div");
           stack.push(num2 / num1);
         }
+        else if((Character) queueValue == '^') {
+          stack.push(Math.pow(num1, num2));
+        }
         queue.removeFirst();
       }
     }
 
     if (stack.size() > 1) {
-      //System.out.println(stack);
+      System.out.println(stack);
       throw new RuntimeException("There are excess numbers in the stack.");
     }
     return stack.pop();
@@ -61,7 +64,7 @@ public class Postfix {
 
   /** Run short test */
   public static void main(String[] args) {
-    System.out.println("Answer: " + compute("3 2 + 5 * "));
+    System.out.println("Answer: " + compute("3 2 5 * +"));
 
     if (args.length == 0) {
       // If no arguments passed, print instructions
