@@ -27,14 +27,15 @@ public class Calculate {
         // System.out.println(outputQueue);
       } else if (firstObj instanceof Character) {
         if ((Character) firstObj == '+' || (Character) firstObj == '-' || (Character) firstObj == '*'
-            || (Character) firstObj == '/') {
+            || (Character) firstObj == '/' || (Character) firstObj == '^') {
           System.out.println(firstObj);
           if (!operatorStack.isEmpty()) {
             System.out.println(operatorStack.peekFirst() != null);
             System.out.println((getPrecedence(operatorStack.peekFirst()))); // >= getPrecedence((Character) firstObj)));
             System.out.println(getPrecedence((Character) firstObj));
 
-            while (operatorStack.peekFirst() != null && (getPrecedence(operatorStack.peekFirst()) >= getPrecedence((Character) firstObj))) {
+            while (operatorStack.peekFirst() != null
+                && (getPrecedence(operatorStack.peekFirst()) >= getPrecedence((Character) firstObj))) {
               System.out.println("while");
 
               outputQueue.addLast(operatorStack.getFirst());
@@ -42,7 +43,7 @@ public class Calculate {
               operatorStack.removeFirst();
               System.out.println("removed");
               System.out.println(operatorStack);
-              //operatorStack.getFirst(); 
+              // operatorStack.getFirst();
             }
           }
           operatorStack.push((Character) firstObj);
@@ -68,15 +69,15 @@ public class Calculate {
         }
       }
     }
-    if(infix.size() == 0) {
-      if(operatorStack.peekFirst() == '(' || operatorStack.peekFirst() == ')') {
-        throw new RuntimeException("Mismatched Parenthesis"); 
-      }
-      else if(operatorStack.peekFirst() == '+' || operatorStack.peekFirst() == '-' || operatorStack.peekFirst() == '/'|| operatorStack.peekFirst() == '*'|| operatorStack.peekFirst() == '^') {
-        outputQueue.addLast(operatorStack.pop()); 
+    if (infix.size() == 0) {
+      if (operatorStack.peekFirst() == '(' || operatorStack.peekFirst() == ')') {
+        throw new RuntimeException("Mismatched Parenthesis");
+      } else if (operatorStack.peekFirst() == '+' || operatorStack.peekFirst() == '-'
+          || operatorStack.peekFirst() == '/' || operatorStack.peekFirst() == '*' || operatorStack.peekFirst() == '^') {
+        outputQueue.addLast(operatorStack.pop());
       }
     }
-    
+
     if (operatorStack.size() == 0 || infix.size() != 0) {
       throw new RuntimeException("Cannot compute.");
     } else {
@@ -106,20 +107,20 @@ public class Calculate {
 
   public static int getPrecedence(Object operator) {
     int prec = 0;
-    if ((Character)operator == '^') {
+    if ((Character) operator == '^') {
       prec = 4;
-    } else if ((Character)operator == '*' || (Character)operator == '/') {
+    } else if ((Character) operator == '*' || (Character) operator == '/') {
       prec = 3;
-    } else if ((Character)operator == '+' || (Character)operator == '-') {
+    } else if ((Character) operator == '+' || (Character) operator == '-') {
       prec = 2;
-    } 
+    }
     return prec;
   }
 
   /** Run short test */
   public static void main(String[] args) {
 
-    System.out.println(Calculate.calculate("3 + 2 * 5"));
+    System.out.println("Answer: " + Calculate.calculate("2 ^ 1 ^ 3"));
 
     // if (args.length == 0) {
     // // If no arguments passed, print instructions
