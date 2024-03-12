@@ -1,5 +1,4 @@
-import java.util.Scanner;
-import java.io.StringReader;
+import java.util.Arrays;
 import java.util.ArrayDeque;
 
 /**
@@ -8,24 +7,89 @@ import java.util.ArrayDeque;
  */
 public class Calculate {
   ArrayDeque<Object> stack = new ArrayDeque<Object>();
-  ArrayDeque<Object> queue = new ArrayDeque<Object>();
+  // ArrayDeque<Object> queue = new ArrayDeque<Object>();
 
-  public static Double compute(String input) {
+  public static Double calculate(String input) {
+    ArrayDeque<Object> infix = Tokenizer.readTokens(input);
+    int length = infix.size();
+
+    ArrayDeque<Object> outputQueue = new ArrayDeque<>();
+    ArrayDeque<Character> operatorStack = new ArrayDeque<>();
+
+    for (int i = 0; i < length; i++) {
+      Object firstObj = infix.getFirst();
+      // System.out.println("Output: " + outputQueue);
+      // System.out.println("Stack" + operatorStack);
+
+      if (firstObj instanceof Double) {
+        outputQueue.addLast((Double) firstObj);
+        infix.removeFirst();
+        // System.out.println(outputQueue);
+      } else if (firstObj instanceof Character) {
+        if ((Character) firstObj == '+' || (Character) firstObj == '-' || (Character) firstObj == '*'
+            || (Character) firstObj == '/') {
+          operatorStack.push((Character) firstObj);
+          infix.removeFirst();
+        } else if ((Character) firstObj == '(') {
+          operatorStack.push((Character) firstObj);
+          infix.removeFirst();
+        } else if ((Character) firstObj == ')') {
+          // System.out.println(firstObj);
+          // System.out.println("stuck");
+          // System.out.println(operatorStack);
+          // System.out.println(operatorStack.getFirst());
+          while (operatorStack.getFirst() != '(') {
+            outputQueue.addLast(operatorStack.getFirst());
+            operatorStack.removeFirst();
+            // System.out.println(operatorStack);
+            // System.out.println(outputQueue);
+            // System.out.println(operatorStack);
+          }
+          infix.removeFirst();
+          operatorStack.removeFirst();
+          // System.out.println(operatorStack.removeFirst());
+        }
+      }
+    }
+    if (operatorStack.size() == 0 || infix.size() != 0) {
+      throw new RuntimeException("Cannot compute.");
+    } else {
+      outputQueue.addLast(operatorStack.pop());
+
+    }
+
+    // System.out.println("End stack:" + operatorStack);
+    // System.out.println("End Queue:" + outputQueue);
+    // System.out.println("end In:" + infix);
+
+    Object postfix[] = outputQueue.toArray();
+    // System.out.println("String:" + Arrays.toString(postfix));
+    // System.out.println( Postfix.compute(toString(postfix)));
+    return Postfix.compute(toString(postfix)); 
+
+  }
+
+  public static String toString(Object queue[]) {
+    String input = "";
+
+    for (Object values : queue) {
+      input += values + " ";
+    }
+    return input;
 
   }
 
   /** Run short test */
   public static void main(String[] args) {
 
+    //System.out.println(Calculate.calculate("(3+2)*5"));
+
     if (args.length == 0) {
-      // If no arguments passed, print instructions
-      System.err.println("Usage:  java Calculate <expr>");
+    // If no arguments passed, print instructions
+    System.err.println("Usage: java Calculate <expr>");
     } else {
-      // Otherwise, echo what was read in for now
-      Scanner input = new Scanner(new StringReader(args[0]));
-      while (input.hasNext()) {
-        System.out.println(input.next());
-      }
+    // Otherwise, echo what was read in for now
+    System.out.println("Answer: " + Calculate.calculate(args[0]));
     }
   }
 

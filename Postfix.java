@@ -28,6 +28,7 @@ public class Postfix {
       } else if (queueValue instanceof Character) {
 
         if (stack.size() < 2) {
+          //System.out.println(stack);
           throw new RuntimeException("There are insufficient amount of numbers in the stack");
         }
 
@@ -52,6 +53,7 @@ public class Postfix {
     }
 
     if (stack.size() > 1) {
+      //System.out.println(stack);
       throw new RuntimeException("There are excess numbers in the stack.");
     }
     return stack.pop();
@@ -59,7 +61,7 @@ public class Postfix {
 
   /** Run short test */
   public static void main(String[] args) {
-    System.out.println("Answer: " + compute(" 3 2 + 5 * 7 "));
+    System.out.println("Answer: " + compute("3 2 + 5 * "));
 
     if (args.length == 0) {
       // If no arguments passed, print instructions
