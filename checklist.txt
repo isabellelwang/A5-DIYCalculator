@@ -52,6 +52,6 @@ __Yes___ 2 pt: Complies with style guidelines (missing items 1 pt each):
 
       __Yes___ Methods avoid confusing side effects
 
-_____ 1 pt: All required files included with submission (including completed checklist file)
+___Yes__ 1 pt: All required files included with submission (including completed checklist file)
 
-_____ 1 pt: readme.md contains reflection on the assignment
+___Yes__ 1 pt: readme.md contains reflection on the assignment
