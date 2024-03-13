@@ -30,7 +30,7 @@ ___Yes__ 1 pt: Output of shunt yard passed to postfix via queue
 
 ___Yes__ 1 pt: Computes correct arithmetic results for +, -, *, and / operations
 
-_____ 1 pt: Properly handles operators with different associative properties (e.g. ^) using the full Wikipedia algorithm
+__No___ 1 pt: Properly handles operators with different associative properties (e.g. ^) using the full Wikipedia algorithm
 
 
 

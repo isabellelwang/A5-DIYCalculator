@@ -50,6 +50,9 @@ public class Calculate {
           while (operatorStack.getFirst() != '(') {
             outputQueue.addLast(operatorStack.getFirst());
             operatorStack.removeFirst();
+            if(operatorStack.isEmpty()) {
+              throw new RuntimeException("Mismatch Parenthesis");
+            }
           }
           infix.removeFirst();
           operatorStack.removeFirst();
@@ -79,10 +82,10 @@ public class Calculate {
     System.out.println("Queue:" + outputQueue);
     if (!operatorStack.isEmpty() && infix.isEmpty()) {
       System.out.println("IN");
-      if(operatorStack.size() >= 1) {
+      if (operatorStack.size() >= 1) {
         if (operatorStack.peekFirst() == '+' || operatorStack.peekFirst() == '-'
-          || operatorStack.peekFirst() == '/' || operatorStack.peekFirst() == '*') {
-            System.out.println("in2");
+            || operatorStack.peekFirst() == '/' || operatorStack.peekFirst() == '*') {
+          System.out.println("in2");
           while (!operatorStack.isEmpty()) {
             System.out.println("here");
             outputQueue.addLast(operatorStack.pop());
@@ -91,7 +94,7 @@ public class Calculate {
       }
       if (operatorStack.size() == 1) {
         System.out.println("in1");
-        //compare mismatch ()
+        // compare mismatch ()
         if (operatorStack.peekFirst() == '(' || operatorStack.peekFirst() == ')') {
           throw new RuntimeException("Mismatched Parenthesis");
         }
@@ -134,15 +137,15 @@ public class Calculate {
   /** Run short test */
   public static void main(String[] args) {
 
-    System.out.println("Answer: " + Calculate.calculate("(3 + 2) * 5"));
+    System.out.println("Answer: " + Calculate.calculate("(3 + 2) * 5 ("));
 
-    // if (args.length == 0) {
-    // // If no arguments passed, print instructions
-    // System.err.println("Usage: java Calculate <expr>");
-    // } else {
-    // // Otherwise, echo what was read in for now
-    // System.out.println("Answer: " + Calculate.calculate(args[0]));
-    // }
+    if (args.length == 0) {
+    // If no arguments passed, print instructions
+    System.err.println("Usage: java Calculate <expr>");
+    } else {
+    // Otherwise, echo what was read in for now
+    System.out.println("Answer: " + Calculate.calculate(args[0]));
+    }
   }
 
 }
