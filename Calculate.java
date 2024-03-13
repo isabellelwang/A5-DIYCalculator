@@ -18,50 +18,38 @@ public class Calculate {
 
     for (int i = 0; i < length; i++) {
       Object firstObj = infix.getFirst();
-      System.out.println("Output: " + outputQueue);
-      System.out.println("Stack" + operatorStack);
+      System.out.println(i);
+      System.out.println("Start Output: " + outputQueue);
+      System.out.println("start Stack" + operatorStack);
+      System.out.println("start infix: " + infix);
 
       if (firstObj instanceof Double) {
         outputQueue.addLast((Double) firstObj);
         infix.removeFirst();
-        // System.out.println(outputQueue);
       } else if (firstObj instanceof Character) {
         if ((Character) firstObj == '+' || (Character) firstObj == '-' || (Character) firstObj == '*'
-            || (Character) firstObj == '/' || (Character) firstObj == '^') {
+            || (Character) firstObj == '/') {
           System.out.println(firstObj);
           if (!operatorStack.isEmpty()) {
-            System.out.println(operatorStack.peekFirst() != null);
-            System.out.println((getPrecedence(operatorStack.peekFirst()))); // >= getPrecedence((Character) firstObj)));
-            System.out.println(getPrecedence((Character) firstObj));
-
             while (operatorStack.peekFirst() != null
                 && (getPrecedence(operatorStack.peekFirst()) >= getPrecedence((Character) firstObj))) {
-              System.out.println("while");
-
               outputQueue.addLast(operatorStack.getFirst());
-              System.out.println(outputQueue);
               operatorStack.removeFirst();
-              System.out.println("removed");
-              System.out.println(operatorStack);
-              // operatorStack.getFirst();
             }
           }
+          System.out.println("Character: " + operatorStack);
           operatorStack.push((Character) firstObj);
+          System.out.println("After push: " + operatorStack);
+          System.out.println("before remove: " + infix);
           infix.removeFirst();
+          System.out.println("removed" + infix);
         } else if ((Character) firstObj == '(') {
           operatorStack.push((Character) firstObj);
           infix.removeFirst();
         } else if ((Character) firstObj == ')') {
-          // System.out.println(firstObj);
-          // System.out.println("stuck");
-          // System.out.println(operatorStack);
-          // System.out.println(operatorStack.getFirst());
           while (operatorStack.getFirst() != '(') {
             outputQueue.addLast(operatorStack.getFirst());
             operatorStack.removeFirst();
-            // System.out.println(operatorStack);
-            // System.out.println(outputQueue);
-            // System.out.println(operatorStack);
           }
           infix.removeFirst();
           operatorStack.removeFirst();
@@ -69,6 +57,7 @@ public class Calculate {
         }
       }
     }
+    // parenthesis
     if (infix.size() == 0) {
       if (operatorStack.peekFirst() == '(' || operatorStack.peekFirst() == ')') {
         throw new RuntimeException("Mismatched Parenthesis");
@@ -78,22 +67,47 @@ public class Calculate {
       }
     }
 
-    if (operatorStack.size() == 0 || infix.size() != 0) {
-      throw new RuntimeException("Cannot compute.");
-    } else {
-      outputQueue.addLast(operatorStack.pop());
+    // if (operatorStack.size() == 0 && infix.size() != 0) {
+    // // System.out.println("Stack: " + operatorStack);
+    // // System.out.println("infix: " +infix);
+    // throw new RuntimeException("Cannot compute.");
+    // } else {
+    // outputQueue.addLast(operatorStack.pop());
+    // }
 
+    System.out.println(operatorStack);
+    System.out.println("Queue:" + outputQueue);
+    if (!operatorStack.isEmpty() && infix.isEmpty()) {
+      System.out.println("IN");
+      if(operatorStack.size() >= 1) {
+        if (operatorStack.peekFirst() == '+' || operatorStack.peekFirst() == '-'
+          || operatorStack.peekFirst() == '/' || operatorStack.peekFirst() == '*') {
+            System.out.println("in2");
+          while (!operatorStack.isEmpty()) {
+            System.out.println("here");
+            outputQueue.addLast(operatorStack.pop());
+          }
+        }
+      }
+      if (operatorStack.size() == 1) {
+        System.out.println("in1");
+        //compare mismatch ()
+        if (operatorStack.peekFirst() == '(' || operatorStack.peekFirst() == ')') {
+          throw new RuntimeException("Mismatched Parenthesis");
+        }
+      }
     }
+    // } else{
+    // // System.out.println(operatorStack.pop());
+    // //outputQueue.addLast(operatorStack.pop());
+    // }
 
     System.out.println("End stack:" + operatorStack);
     System.out.println("End Queue:" + outputQueue);
     System.out.println("end In:" + infix);
 
     Object postfix[] = outputQueue.toArray();
-    // System.out.println("String:" + Arrays.toString(postfix));
-    // System.out.println( Postfix.compute(toString(postfix)));
     return Postfix.compute(toString(postfix));
-
   }
 
   public static String toString(Object queue[]) {
@@ -120,7 +134,7 @@ public class Calculate {
   /** Run short test */
   public static void main(String[] args) {
 
-    System.out.println("Answer: " + Calculate.calculate("2 ^ 1 ^ 3"));
+    System.out.println("Answer: " + Calculate.calculate("(3 + 2) * 5"));
 
     // if (args.length == 0) {
     // // If no arguments passed, print instructions

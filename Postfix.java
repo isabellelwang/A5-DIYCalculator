@@ -64,7 +64,7 @@ public class Postfix {
 
   /** Run short test */
   public static void main(String[] args) {
-    System.out.println("Answer: " + compute("3 2 5 * +"));
+    System.out.println("Answer: " + compute("3 2 + 5 *"));
 
     if (args.length == 0) {
       // If no arguments passed, print instructions
